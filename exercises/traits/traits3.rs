@@ -17,13 +17,22 @@ pub trait Licensed {
 struct SomeSoftware {
     version_number: i32,
 }
+impl Licensed for SomeSoftware{
+    fn licensing_info(&self)->String{
+        String::from("Some information")
+    }
+}
 
 struct OtherSoftware {
     version_number: String,
 }
-
-impl Licensed for SomeSoftware {} // Don't edit this line
-impl Licensed for OtherSoftware {} // Don't edit this line
+impl Licensed for OtherSoftware {
+    fn licensing_info(&self) -> String {
+        String::from("Some information")
+    }
+}
+// impl Licensed for SomeSoftware {} // Don't edit this line
+// impl Licensed for OtherSoftware {} // Don't edit this line
 
 #[cfg(test)]
 mod tests {

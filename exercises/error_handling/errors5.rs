@@ -22,14 +22,15 @@
 // Execute `rustlings hint errors5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::error;
 use std::fmt;
 use std::num::ParseIntError;
+use std::boxed::Box;
 
+// ParseIntError
 // TODO: update the return type of `main()` to make this compile.
-fn main() -> Result<(), Box<dyn ???>> {
+fn main() -> Result<(), Box<dyn error::Error>> {
     let pretend_user_input = "42";
     let x: i64 = pretend_user_input.parse()?;
     println!("output={:?}", PositiveNonzeroInteger::new(x)?);
@@ -56,7 +57,7 @@ impl PositiveNonzeroInteger {
         }
     }
 }
-
+// CreationError
 // This is required so that `CreationError` can implement `error::Error`.
 impl fmt::Display for CreationError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -69,3 +70,18 @@ impl fmt::Display for CreationError {
 }
 
 impl error::Error for CreationError {}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_creation() {
+        assert!(PositiveNonzeroInteger::new(10).is_ok());
+        assert_eq!(
+            Err(CreationError::Negative),
+            PositiveNonzeroInteger::new(-10)
+        );
+        assert_eq!(Err(CreationError::Zero), PositiveNonzeroInteger::new(0));
+    }
+}
